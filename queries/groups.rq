@@ -1,0 +1,15 @@
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl:  <http://www.w3.org/2002/07/owl#>
+PREFIX dbo:  <http://dbpedia.org/ontology/>
+PREFIX dbr:  <http://dbpedia.org/resource/>
+PREFIX dbp:  <http://dbpedia.org/property/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+SELECT  DISTINCT ?group
+FROM <http://dbpedia.org>
+WHERE {?group dbo:genre dbr:{{genre}}.
+        ?group a dbo:Organisation.
+        
+        ?group dbo:background ?band.
+        FILTER (?band="group_or_band"^^xsd:string)}

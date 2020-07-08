@@ -11,9 +11,11 @@ import re
 app = Flask(__name__)
 
 class Query:
-    ABSTRACT = "abstract.rq"
-    ORIGIN = "origin.rq"
+    GENRE_ABSTRACT = "genre_abstract.rq"
+    GENRE_ORIGIN = "genre_origin.rq"
+    ARTIST_ABSTRACT = "artist_abstract.rq"
     ARTISTS = "artists.rq"
+    GROUPS = "groups.rq"
 
 def generate_uid():
     uid = request.remote_addr + request.user_agent.string
@@ -51,6 +53,7 @@ def get_args(*args):
         d[a] = request.args[a]
     return d
 
+# Renders the html page with the attached script
 @app.route('/index')
 def getIndex():
     with open(os.path.join("templates","app.html")) as f:
@@ -60,7 +63,55 @@ def getIndex():
         stylesheet=url_for('static',filename="style.css"))
 
 
-@app.route('/query/artists',methods=['GET'])
+@app.route('/query/genre/info',methods=["GET"])
+def getGenreInfo():
+
+    result = {"data":{}}
+    if not check_args("genre"):
+        return json.dumps({"error":"invalid arguments"})
+
+
+    args = get_args("genre")
+    uid = generate_uid()
+
+    # get abstract
+    compile_query(uid,Query.GENRE_ABSTRACT,**args)
+    res = run_query(uid)
+    if res:
+        for r in res:
+            if r['info']['xml:lang']=='en':
+                result["data"]["abstract"] = r['info']['value']
+    
+    # get origin
+    compile_query(uid,Query.GENRE_ORIGIN,**args)
+    res = run_query(uid)
+    if res and len(res)>0:
+        result["data"]["origin"] = int(float(res[0]["origin"]["value"]))
+
+    return json.dumps(result)
+
+@app.route('/query/artist/info',methods=["GET"])
+def getArtistInfo():
+
+    result = {"data":{}}
+    if not check_args("artist"):
+        return json.dumps({"error":"invalid arguments"})
+
+
+    args = get_args("artist")
+    uid = generate_uid()
+
+    # get abstract
+    compile_query(uid,Query.ARTIST_ABSTRACT,**args)
+    res = run_query(uid)
+    if res:
+        for r in res:
+            if r['info']['xml:lang']=='en':
+                result["data"]["abstract"] = r['info']['value']
+
+    return json.dumps(result)
+
+@app.route('/query/genre/artists',methods=['GET'])
 def getArtists():
 
     result = {"data":[]}
@@ -80,33 +131,26 @@ def getArtists():
             result["data"].append(match.groups(1)[0])
     return result
 
+@app.route('/query/genre/groups',methods=["GET"])
+def getGroups():
 
-@app.route('/query/info',methods=["GET"])
-def getInfo():
-
-    result = {"data":{}}
+    result = {"data":[]}
     if not check_args("genre"):
         return json.dumps({"error":"invalid arguments"})
-
 
     args = get_args("genre")
     uid = generate_uid()
 
-    # get abstract
-    compile_query(uid,Query.ABSTRACT,**args)
+    # get groups
+    compile_query(uid,Query.GROUPS,**args)
     res = run_query(uid)
-    if res:
-        for r in res:
-            if r['info']['xml:lang']=='en':
-                result["data"]["abstract"] = r['info']['value']
-    
-    # get origin
-    compile_query(uid,Query.ORIGIN,**args)
-    res = run_query(uid)
-    if res and len(res)>0:
-        result["data"]["origin"] = int(float(res[0]["origin"]["value"]))
+    for r in res:
+        a = r["group"]["value"]
+        match = re.match(r"http://dbpedia.org/resource/(.*)",a)
+        if match and  len(match.groups())==1:
+            result["data"].append(match.groups(1)[0])
+    return result
 
-    return json.dumps(result)
 
 
     

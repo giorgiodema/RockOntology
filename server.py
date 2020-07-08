@@ -57,8 +57,10 @@ def getIndex():
 
 
 
-@app.route('/query/abstract',methods=["GET"])
-def abstract():
+@app.route('/query/info',methods=["GET"])
+def getInfo():
+
+    result = {"data":{}}
 
     if not check_args("genre"):
         return json.dumps({"error":"invalid arguments"})
@@ -66,18 +68,17 @@ def abstract():
 
     args = get_args("genre")
     uid = generate_uid()
+
+    # get abstract
     compile_query(uid,Query.ABSTRACT,**args)
     res = run_query(uid)
-    
-    if not res:
-        return json.dumps({"error":"invalid query"})
-    
-    res = res["results"]["bindings"]
-    for r in res:
-        if r['info']['xml:lang']=='en':
-            return json.dumps({"data":r['info']['value']})
+    if res:
+        res = res["results"]["bindings"]
+        for r in res:
+            if r['info']['xml:lang']=='en':
+                result["data"]["abstract"] = r['info']['value']
 
-    return json.dumps({"error":"no result found"})
+    return json.dumps(result)
 
 
     

@@ -63,6 +63,12 @@ def getIndex():
         stylesheet=url_for('static',filename="style.css"))
 
 
+# Gets informations about a music genre.
+#   Parameters:
+#       -> genre: the name of the music genre
+#   Result:
+#       -> abstract: textual description of the genre
+#       -> origin: year in which the genre appears
 @app.route('/query/genre/info',methods=["GET"])
 def getGenreInfo():
 
@@ -90,6 +96,11 @@ def getGenreInfo():
 
     return json.dumps(result)
 
+# Gets informations about an artist-
+#   Parameters:
+#       -> artist: the name of the artist
+#   Result:
+#       -> abstract: textual description of the artist 
 @app.route('/query/artist/info',methods=["GET"])
 def getArtistInfo():
 
@@ -111,6 +122,12 @@ def getArtistInfo():
 
     return json.dumps(result)
 
+# Gets the name of all the artists (Persons) involved in the
+# specified music genre.
+#   Parameters:
+#       -> genre: the name of the music genre
+#   Result:
+#       -> []: a list with the name of the artists
 @app.route('/query/genre/artists',methods=['GET'])
 def getArtists():
 
@@ -131,6 +148,12 @@ def getArtists():
             result["data"].append(match.groups(1)[0])
     return result
 
+# Gets the name of all the groups involved in the
+# specified music genre.
+#   Parameters:
+#       -> genre: the name of the music genre
+#   Result:
+#       -> []: a list with the name of the groups
 @app.route('/query/genre/groups',methods=["GET"])
 def getGroups():
 

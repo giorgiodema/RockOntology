@@ -27,6 +27,7 @@ def compile_query(uid,qid,**kwargs):
 def run_query(uid):
     with Popen([os.path.join("commands","run.bat"),"./tmp/"+uid,"json"], stdout=PIPE) as proc:
         res = proc.stdout.read()
+        os.remove(os.path.join("tmp",uid))
         if res==b'':
             return None
         else:
@@ -53,6 +54,8 @@ def getIndex():
     return t.render(
         javascript=url_for('static',filename="app.js"),
         stylesheet=url_for('static',filename="style.css"))
+
+
 
 @app.route('/query/abstract',methods=["GET"])
 def abstract():

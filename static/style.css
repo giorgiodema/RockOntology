@@ -1,3 +1,47 @@
-#title{
-    color:red
+.top_container{
+    background-color: lightslategray;
+    position: fixed;
+    top: 0;
+    height: 30%;
+    width: 100%;
+
+}
+
+#root_genre{
+    
+}
+
+.genre_container{
+    border-radius: 50%;
+    background-color: rgb(97, 170, 216);
+    position:absolute;
+
+    width:200px;
+    height: 200px;
+
+    left:50%;
+    margin-left:-100px;
+    top:50%;
+    margin-top:-100px;
+
+
+
+}
+.genre_title{
+    position: absolute;
+    bottom: 15%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+    font-size:xx-large;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.genre_origin{
+    position: absolute;
+    bottom: 5%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+    font-size:large;
+    font-family: Arial, Helvetica, sans-serif;
 }

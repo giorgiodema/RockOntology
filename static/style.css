@@ -1,7 +1,7 @@
 /*  contains all the items, it's the
     root container */
 .main_container{
-    background-color: lightslategray;
+    background-color: rgb(255, 254, 254);
 
     display: flex;
     /* main direction */
@@ -25,7 +25,7 @@
     as well as the popup with all the actions
     that can be performed */
 .item_popup_container{
-    background-color: darkseagreen;
+    background-color: rgb(240, 255, 240);
     width: 250px;
     height: 250px;
 }
@@ -35,7 +35,9 @@
 .item_container{
 
     border-radius: 50%;
-    background-color: rgb(97, 170, 216);
+    border-style: solid;
+    border-width: 2px;
+    border-color: rgb(0, 139, 226);
 
     width:200px;
     height: 200px;
@@ -46,11 +48,44 @@
     text-align: center;
 }
 
+/*  popup displaying all
+    actions that can be 
+    performed on an item */
+.popup{
+    /* remove dots */
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+
+    width: 150px;
+    border: 1px solid rgb(0, 139, 226);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: stretch;
+}
+/*  single action that can be
+    performed on an item */
+.popup li{
+    display: inline-block;
+    border: 1px solid rgb(0, 139, 226);
+    height: 100%;
+}
+.popup li:hover{
+    background-color: rgb(126, 206, 255);
+}
+.popup li p{
+    text-align: center;
+    font-size:large;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
 /*  title of an item of type
     genre */
 .genre_title{
     position: relative;
-    top:80px;
+    top:50px;
     font-size:xx-large;
     font-family: Arial, Helvetica, sans-serif;
 }
@@ -59,7 +94,7 @@
     type genre */
 .genre_origin{
     position: relative;
-    top:80px;
+    top:50px;
     font-size:large;
     font-family: Arial, Helvetica, sans-serif;
 }

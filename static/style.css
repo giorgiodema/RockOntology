@@ -69,6 +69,9 @@
     justify-content: space-evenly;
     align-items: stretch;
 
+    /* visibility*/
+    visibility: collapse;
+
 }
 /*  single action that can be
     performed on an item */

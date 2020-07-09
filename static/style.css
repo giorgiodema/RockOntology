@@ -1,3 +1,19 @@
+/*  back button, to return to the
+    previous items */
+#back{
+    position: sticky;
+    left: 10px;
+    top: 10px;
+    padding:20px;
+    background-color: white;
+    border: 2px solid rgb(0, 139, 226);
+    font-size: large;
+}
+#back:hover{
+    background-color: rgb(126, 206, 255);
+}
+
+
 /*  contains all the items, it's the
     root container */
 .main_container{

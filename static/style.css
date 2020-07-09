@@ -30,7 +30,8 @@
     height: 250px;
 }
 
-
+/*  rounded div that contains 
+    a single item */
 .item_container{
 
     border-radius: 50%;
@@ -44,15 +45,22 @@
 
     text-align: center;
 }
+
+/*  title of an item of type
+    genre */
 .genre_title{
     position: relative;
     top:80px;
     font-size:xx-large;
     font-family: Arial, Helvetica, sans-serif;
 }
+
+/*  year of origin of an item of
+    type genre */
 .genre_origin{
     position: relative;
     top:80px;
     font-size:large;
     font-family: Arial, Helvetica, sans-serif;
 }
+

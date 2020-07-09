@@ -1,3 +1,5 @@
+/*  contains all the items, it's the
+    root container */
 .main_container{
     background-color: lightslategray;
 
@@ -19,14 +21,17 @@
 
 }
 
-.genre_popup_container{
+/*  for each item it contains the result
+    as well as the popup with all the actions
+    that can be performed */
+.item_popup_container{
     background-color: darkseagreen;
     width: 250px;
     height: 250px;
 }
 
 
-.genre_container{
+.item_container{
 
     border-radius: 50%;
     background-color: rgb(97, 170, 216);

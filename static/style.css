@@ -58,6 +58,20 @@
     text-align: center;
 }
 
+/*  rounded div that contains 
+    a single subitem */
+.item_subitem_container{
+    border-radius: 50%;
+    border-style: solid;
+    border-width: 2px;
+    border-color: rgb(0, 226, 30);
+
+    width:100px;
+    height: 100px;
+
+    text-align: center;
+}
+
 /*  popup displaying all
     actions that can be 
     performed on an item */
@@ -104,6 +118,16 @@
     font-family: Arial, Helvetica, sans-serif;
     animation:none
 }
+
+/*  title of an item of type
+    genre */
+    .subitem_title{
+        position: relative;
+        top:50px;
+        font-size:xx-large;
+        font-family: Arial, Helvetica, sans-serif;
+        animation:none
+    }
 
 /*  year of origin of an item of
     type genre */

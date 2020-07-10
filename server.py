@@ -16,6 +16,7 @@ class Query:
     ARTIST_ABSTRACT = "artist_abstract.rq"
     ARTISTS = "artists.rq"
     GROUPS = "groups.rq"
+    SUBGENRES ="subgenres.rq"
 
 def generate_uid():
     uid = request.remote_addr + request.user_agent.string
@@ -169,6 +170,32 @@ def getGroups():
     res = run_query(uid)
     for r in res:
         a = r["group"]["value"]
+        match = re.match(r"http://dbpedia.org/resource/(.*)",a)
+        if match and  len(match.groups())==1:
+            result["data"].append(match.groups(1)[0])
+    return result
+
+
+# Gets the name of all the subgenres of the
+# specified genre
+#   Parameters:
+#       -> genre: the name of the music genre
+#   Result:
+#       -> []: a list of the subgenres
+@app.route('/query/genre/subgenres',methods=["GET"])
+def getSubGenres():
+    result = {"data":[]}
+    if not check_args("genre"):
+        return json.dumps({"error":"invalid arguments"})
+
+    args = get_args("genre")
+    uid = generate_uid()
+
+    # get subgenres
+    compile_query(uid,Query.SUBGENRES,**args)
+    res = run_query(uid)
+    for r in res:
+        a = r["subgenre"]["value"]
         match = re.match(r"http://dbpedia.org/resource/(.*)",a)
         if match and  len(match.groups())==1:
             result["data"].append(match.groups(1)[0])

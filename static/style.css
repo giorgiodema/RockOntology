@@ -39,7 +39,7 @@
 
 /*  rounded div that contains 
     a single item */
-.item_container{
+.item_genre_container{
 
     border-radius: 50%;
     border-style: solid;
@@ -55,7 +55,7 @@
 /*  popup displaying all
     actions that can be 
     performed on an item */
-.popup{
+.popup_genre{
     /* remove dots */
     list-style-type: none;
     margin: 0;
@@ -75,15 +75,15 @@
 }
 /*  single action that can be
     performed on an item */
-.popup li{
+.popup_genre li{
     display: inline-block;
     border: 1px solid rgb(0, 139, 226);
     height: 100%;
 }
-.popup li:hover{
+.popup_genre li:hover{
     background-color: rgb(126, 206, 255);
 }
-.popup li p{
+.popup_genre li p{
     text-align: center;
     font-size:large;
     font-family: Arial, Helvetica, sans-serif;

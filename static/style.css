@@ -37,6 +37,12 @@
 
 }
 
+#item_abstract_container{
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    visibility: collapse;
+}
+
 /*  rounded div that contains 
     a single item */
 .item_genre_container{
@@ -96,6 +102,7 @@
     top:50px;
     font-size:xx-large;
     font-family: Arial, Helvetica, sans-serif;
+    animation:none
 }
 
 /*  year of origin of an item of
@@ -107,3 +114,8 @@
     font-family: Arial, Helvetica, sans-serif;
 }
 
+@keyframes fadeOut{
+    to{
+        opacity: 0;
+    }
+}

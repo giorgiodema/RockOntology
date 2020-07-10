@@ -3,6 +3,8 @@ var current_genre = null
 var MusicGenre = function(name,origin){
     this.name = name
     this.origin = origin
+    this.container_id = 'div_genre_'+this.name
+    this.popup_id = 'popup_genre_'+this.name
     this.sub_genres = []
     this.fus_genres = []
     this.artists = []
@@ -64,6 +66,10 @@ function clickListeners(e){
         oReq.addEventListener("load", infoResponseListener)
         oReq.open("GET", document.location.origin + "/query/genre/info"+"?"+"genre="+current_genre.name)
         oReq.send()
+        var genreContainer = document.getElementById(current_genre.container_id)
+        var genrePopup = document.getElementById(current_genre.popup_id)
+        fadeOutElement(genreContainer)
+        fadeOutElement(genrePopup)
     }
     if(e.target && (e.target.className=="genre_sub" || e.target.parentElement.className=="genre_sub")){
         console.log("genre_sub")
@@ -80,7 +86,16 @@ function clickListeners(e){
 }
 
 function infoResponseListener(e){
-    console.log(this.responseText)
+    console.log(this.response)
+    var data = JSON.parse(this.responseText)
+    console.log("ciao")
+}
+
+function fadeOutElement(element){
+    element.style.animation = "fadeOut 5s"
+    for(var i=0;i<element.children.length;i++){
+        element.children[i].style.animation = "fadeOut 5s"
+    }
 }
 
 

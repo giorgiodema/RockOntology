@@ -16,7 +16,7 @@ MusicGenre.prototype.draw = function(){
     /*  name and year)
     */
     var container =     '<div class="item_genre_container" id="div_genre_'+this.name+'" name='+this.name+'>\
-                            <p class="genre_title">'+this.name.replace("_"," ")+'</p>\
+                            <p class="genre_title">'+this.name.replace(/_/g," ")+'</p>\
                             <p class="genre_origin">'+this.origin+'</p>\
                         </div>'
     /*
@@ -35,6 +35,24 @@ MusicGenre.prototype.draw = function(){
     document.getElementById('main_container').innerHTML += container + popup
 }
 
+var SubItem = function(name){
+    this.name = name
+    this.container_id = 'subitem_container'+this.name
+}
+SubItem.prototype.draw = function(){
+    /*
+    /*  html code for a genre container (rounded container with
+    /*  name and year)
+    */
+    var container =     '<div class="subitem_container" id="subitem_container'+this.name+'" name='+this.name+'>\
+                            <p class="subitem_title">'+this.name.replace(/_/g," ")+'</p>\
+                        </div>'
+    /*
+    /* attach new items to the html page
+    */
+    document.getElementById('main_container').innerHTML += container
+}
+
 function clickListeners(e){
         /*
         /*  click listener on the genre container
@@ -43,10 +61,10 @@ function clickListeners(e){
         */
        if(e.target && e.target.className=="item_genre_container"){
         var popup = document.getElementById("popup_genre_"+e.target.getAttribute("name"))
-        if(popup.style.visibility=="collapse")
-            popup.style.visibility="visible"
+        if(popup.style.display=="flex")
+            popup.style.display="none"
         else
-            popup.style.visibility="collapse"
+            popup.style.display="flex"
     }
     /*
     /*  listeners for the items of the popup menu:
@@ -108,18 +126,30 @@ function infoResponseListener(e){
     var infoTitle = document.getElementById("item_abstract_title")
     var infoDesc = document.getElementById("item_abstract_description")
 
-    infoTitle.innerText = current_genre.name.replace("_"," ")
+    infoTitle.innerText = current_genre.name.replace(/_/g," ")
     infoDesc.innerText = data["data"]["abstract"]
 
-    genreContainer.style.visibility="collapse"
-    genrePopup.style.visibility="collapse"
-    infoContainer.style.visibility="visible"
+    genreContainer.style.display="none"
+    genrePopup.style.display="none"
+    infoContainer.style.display="block"
 
     fadeInElement(infoContainer)
 }
 
 function subgenresResponseListener(e){
+    var genreContainer = document.getElementById(current_genre.container_id)
+    var genrePopup = document.getElementById(current_genre.popup_id)
+    genreContainer.style.display="none"
+    genrePopup.style.display="none"
+
     console.log(this.response)
+    var data = JSON.parse(this.responseText)
+    var subgenres = data["data"]
+    for(var i=0;i<subgenres.length;i++){
+        var subgenre = subgenres[i]
+        var subItem = new SubItem(subgenre)
+        subItem.draw()
+    }
 }
 
 /*

@@ -1,4 +1,4 @@
-var current_genre = null
+var current_genre = []
 
 var MusicGenre = function(name,origin){
     this.name = name
@@ -82,10 +82,10 @@ function clickListeners(e){
         console.log("genre_inf")
         var oReq = new XMLHttpRequest()
         oReq.addEventListener("load", infoResponseListener)
-        oReq.open("GET", document.location.origin + "/query/genre/info"+"?"+"genre="+current_genre.name)
+        oReq.open("GET", document.location.origin + "/query/genre/info"+"?"+"genre="+current_genre[current_genre.length-1].name)
         oReq.send()
-        var genreContainer = document.getElementById(current_genre.container_id)
-        var genrePopup = document.getElementById(current_genre.popup_id)
+        var genreContainer = document.getElementById(current_genre[current_genre.length-1].container_id)
+        var genrePopup = document.getElementById(current_genre[current_genre.length-1].popup_id)
         fadeOutElement(genreContainer)
         fadeOutElement(genrePopup)
     }
@@ -93,10 +93,10 @@ function clickListeners(e){
         console.log("genre_sub")
         var oReq = new XMLHttpRequest()
         oReq.addEventListener("load", subgenresResponseListener)
-        oReq.open("GET", document.location.origin + "/query/genre/subgenres"+"?"+"genre="+current_genre.name)
+        oReq.open("GET", document.location.origin + "/query/genre/subgenres"+"?"+"genre="+current_genre[current_genre.length-1].name)
         oReq.send()
-        var genreContainer = document.getElementById(current_genre.container_id)
-        var genrePopup = document.getElementById(current_genre.popup_id)
+        var genreContainer = document.getElementById(current_genre[current_genre.length-1].container_id)
+        var genrePopup = document.getElementById(current_genre[current_genre.length-1].popup_id)
         fadeOutElement(genreContainer)
         fadeOutElement(genrePopup)
     }
@@ -120,13 +120,13 @@ function infoResponseListener(e){
     console.log(this.response)
     var data = JSON.parse(this.responseText)        
 
-    var genreContainer = document.getElementById(current_genre.container_id)
-    var genrePopup = document.getElementById(current_genre.popup_id)
+    var genreContainer = document.getElementById(current_genre[current_genre.length-1].container_id)
+    var genrePopup = document.getElementById(current_genre[current_genre.length-1].popup_id)
     var infoContainer = document.getElementById("item_abstract_container")
     var infoTitle = document.getElementById("item_abstract_title")
     var infoDesc = document.getElementById("item_abstract_description")
 
-    infoTitle.innerText = current_genre.name.replace(/_/g," ")
+    infoTitle.innerText = current_genre[current_genre.length-1].name.replace(/_/g," ")
     infoDesc.innerText = data["data"]["abstract"]
 
     genreContainer.style.display="none"
@@ -137,8 +137,8 @@ function infoResponseListener(e){
 }
 
 function subgenresResponseListener(e){
-    var genreContainer = document.getElementById(current_genre.container_id)
-    var genrePopup = document.getElementById(current_genre.popup_id)
+    var genreContainer = document.getElementById(current_genre[current_genre.length-1].container_id)
+    var genrePopup = document.getElementById(current_genre[current_genre.length-1].popup_id)
     genreContainer.style.display="none"
     genrePopup.style.display="none"
 
@@ -179,7 +179,7 @@ function fadeInElement(element){
 
 document.body.onload = function(){
     document.addEventListener('click',clickListeners)
-    current_genre = new MusicGenre("Rock_music","1960")
-    current_genre.draw()
+    current_genre.push(new MusicGenre("Rock_music","1960"))
+    current_genre[current_genre.length-1].draw()
 }
 

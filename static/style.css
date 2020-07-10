@@ -64,11 +64,11 @@
 .popup_genre{
     /* remove dots */
     list-style-type: none;
-    margin: 0;
+    margin: 15px;
     padding: 0;
 
     width: 150px;
-    border: 1px solid rgb(0, 139, 226);
+    /*border: 1px solid rgb(0, 139, 226);*/
 
     display: flex;
     flex-direction: column;
@@ -83,7 +83,7 @@
     performed on an item */
 .popup_genre li{
     display: inline-block;
-    border: 1px solid rgb(0, 139, 226);
+    border-bottom: 2px solid rgb(0, 139, 226);
     height: 100%;
 }
 .popup_genre li:hover{

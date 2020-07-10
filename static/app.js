@@ -87,14 +87,40 @@ function clickListeners(e){
 
 function infoResponseListener(e){
     console.log(this.response)
-    var data = JSON.parse(this.responseText)
-    console.log("ciao")
+    var data = JSON.parse(this.responseText)        
+
+    var genreContainer = document.getElementById(current_genre.container_id)
+    var genrePopup = document.getElementById(current_genre.popup_id)
+    var infoContainer = document.getElementById("item_abstract_container")
+    var infoTitle = document.getElementById("item_abstract_title")
+    var infoDesc = document.getElementById("item_abstract_description")
+
+    infoTitle.innerText = current_genre.name.replace("_"," ")
+    infoDesc.innerText = data["data"]["abstract"]
+
+    genreContainer.style.visibility="collapse"
+    genrePopup.style.visibility="collapse"
+    infoContainer.style.visibility="visible"
+
+    fadeInElement(infoContainer)
+
 }
 
 function fadeOutElement(element){
     element.style.animation = "fadeOut 5s"
+    element.style.animationFillMode="forwards"
     for(var i=0;i<element.children.length;i++){
         element.children[i].style.animation = "fadeOut 5s"
+        element.children[i].style.animationFillMode="forwards"
+    }
+}
+
+function fadeInElement(element){
+    element.style.animation = "fadeIn 5s"
+    element.style.animationFillMode="forwards"
+    for(var i=0;i<element.children.length;i++){
+        element.children[i].style.animation = "fadeIn 5s"
+        element.children[i].style.animationFillMode="forwards"
     }
 }
 

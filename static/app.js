@@ -73,6 +73,14 @@ function clickListeners(e){
     }
     if(e.target && (e.target.className=="genre_sub" || e.target.parentElement.className=="genre_sub")){
         console.log("genre_sub")
+        var oReq = new XMLHttpRequest()
+        oReq.addEventListener("load", subgenresResponseListener)
+        oReq.open("GET", document.location.origin + "/query/genre/subgenres"+"?"+"genre="+current_genre.name)
+        oReq.send()
+        var genreContainer = document.getElementById(current_genre.container_id)
+        var genrePopup = document.getElementById(current_genre.popup_id)
+        fadeOutElement(genreContainer)
+        fadeOutElement(genrePopup)
     }
     if(e.target && (e.target.className=="genre_fus" || e.target.parentElement.className=="genre_fus")){
         console.log("genre_fus")
@@ -85,6 +93,11 @@ function clickListeners(e){
     }
 }
 
+
+/*
+/*  Listeners for the responses for the
+/*  asynchronous http requests
+*/
 function infoResponseListener(e){
     console.log(this.response)
     var data = JSON.parse(this.responseText)        
@@ -103,9 +116,16 @@ function infoResponseListener(e){
     infoContainer.style.visibility="visible"
 
     fadeInElement(infoContainer)
-
 }
 
+function subgenresResponseListener(e){
+    console.log(this.response)
+}
+
+/*
+/* Helper functions to perform
+/* animations
+*/
 function fadeOutElement(element){
     element.style.animation = "fadeOut 5s"
     element.style.animationFillMode="forwards"

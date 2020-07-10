@@ -149,6 +149,8 @@ function subgenresResponseListener(e){
         var subgenre = subgenres[i]
         var subItem = new SubItem(subgenre)
         subItem.draw()
+        var elem = document.getElementById(subItem.container_id)
+        fadeInElement(elem)
     }
 }
 

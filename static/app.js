@@ -1,8 +1,9 @@
 var current_genre = []
 
-var MusicGenre = function(name,origin){
+var MainItem = function(name,type){
+    this.type=type
     this.name = name
-    this.origin = origin
+    this.origin = ""
     this.description = null
     this.container_id = 'div_genre_'+this.name
     this.popup_id = 'popup_genre_'+this.name
@@ -11,15 +12,15 @@ var MusicGenre = function(name,origin){
     this.artists = []
     this.groups = []
 }
-MusicGenre.prototype.draw = function(){
+MainItem.prototype.draw = function(){
     /*
     /*  html code for a genre container (rounded container with
     /*  name and year)
     */
     var container =     '<div class="item_genre_container" id="div_genre_'+this.name+'" name='+this.name+'>\
-                            <p class="genre_title">'+this.name.replace(/_/g," ")+'</p>\
-                            <p class="genre_origin">'+this.origin+'</p>\
-                        </div>'
+                            <p class="genre_title">'+this.name.replace(/_/g," ")+'</p>'
+    if(this.type=="genre") container = container += '<p class="genre_origin">'+this.origin+'</p>'
+    container +='</div>'
     /*
     /*  html code for the popup menu of the genre item 
     */
@@ -163,7 +164,7 @@ function clickListeners(e){
            e.style.display="none"
        }
        var name = target.getAttribute("name")
-       current_genre.push(new MusicGenre(name,""))
+       current_genre.push(new MainItem(name,"genre"))
        getCurrentGenreInfo()
 
    }
@@ -184,7 +185,8 @@ function getCurrentGenreInfo(){
 function infoResponseListener(e){
     console.log(this.response)
     var data = JSON.parse(this.responseText)
-    current_genre[current_genre.length-1].origin = data["data"]["origin"]        
+    var c = current_genre[current_genre.length-1]
+    if(c.type=="genre")c.origin = data["data"]["origin"].toString().replace("-","")        
     current_genre[current_genre.length-1].description = data["data"]["abstract"]
     current_genre[current_genre.length-1].draw()
 }
@@ -232,7 +234,7 @@ function fadeInElement(element){
 
 
 document.body.onload = function(){
-    current_genre.push(new MusicGenre("Rock_music",""))
+    current_genre.push(new MainItem("Rock_music","genre"))
     getCurrentGenreInfo()
     document.addEventListener('click',clickListeners)
 }

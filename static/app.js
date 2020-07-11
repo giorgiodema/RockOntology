@@ -36,8 +36,9 @@ MusicGenre.prototype.draw = function(){
     document.getElementById('main_container').innerHTML += container + popup
 }
 
-var SubItem = function(name){
+var SubItem = function(name,type){
     this.name = name
+    this.type = type
     this.container_id = 'subitem_container'+this.name
 }
 SubItem.prototype.draw = function(){
@@ -79,6 +80,7 @@ function clickListeners(e){
     /*          current genre
     /*  -> GRO: display all the groups of the current genre
     */
+   /* INF */
     if(e.target && (e.target.className=="genre_inf" || e.target.parentElement.className=="genre_inf")){
         console.log("genre_inf")
 
@@ -116,6 +118,7 @@ function clickListeners(e){
         });
         
     }
+    /* SUB */
     if(e.target && (e.target.className=="genre_sub" || e.target.parentElement.className=="genre_sub")){
         console.log("genre_sub")
         var oReq = new XMLHttpRequest()
@@ -127,15 +130,43 @@ function clickListeners(e){
         fadeOutElement(genreContainer)
         fadeOutElement(genrePopup)
     }
+    /* FUS */
     if(e.target && (e.target.className=="genre_fus" || e.target.parentElement.className=="genre_fus")){
         console.log("genre_fus")
     }
+    /* ART */
     if(e.target && (e.target.className=="genre_art" || e.target.parentElement.className=="genre_art")){
         console.log("genre_art")
     }
+    /* GRO */
     if(e.target && (e.target.className=="genre_gro" || e.target.parentElement.className=="genre_gro")){
         console.log("genre_gro")
     }
+
+    /*
+    /*  Listener for the click event on a subitem. where a subitem can be either:
+    /*      -> a subgenre
+    /*      -> a fusion genre
+    /*      -> an artist
+    /*      -> a band
+    */
+   if(e.target && (e.target.className=="subitem_container" || e.target.parentElement.className=="subitem_container")){
+       console.log("click on subgenre")
+       var target = null
+       if(e.target.className=="subitem_container")target = e.target
+       else target = e.target.parentElement
+
+       var c = current_genre[current_genre.length-1]
+       for(var i=0;i<c.sub_genres.length;i++){
+           var s = c.sub_genres[i]
+           var e = document.getElementById("subitem_container"+s)
+           e.style.display="none"
+       }
+       var name = target.getAttribute("name")
+       current_genre.push(new MusicGenre(name,""))
+       getCurrentGenreInfo()
+
+   }
 }
 
 function getCurrentGenreInfo(){
@@ -152,7 +183,8 @@ function getCurrentGenreInfo(){
 */
 function infoResponseListener(e){
     console.log(this.response)
-    var data = JSON.parse(this.responseText)        
+    var data = JSON.parse(this.responseText)
+    current_genre[current_genre.length-1].origin = data["data"]["origin"]        
     current_genre[current_genre.length-1].description = data["data"]["abstract"]
     current_genre[current_genre.length-1].draw()
 }
@@ -166,9 +198,10 @@ function subgenresResponseListener(e){
     console.log(this.response)
     var data = JSON.parse(this.responseText)
     var subgenres = data["data"]
+    current_genre[current_genre.length-1].sub_genres = subgenres
     for(var i=0;i<subgenres.length;i++){
         var subgenre = subgenres[i]
-        var subItem = new SubItem(subgenre)
+        var subItem = new SubItem(subgenre,"subgenre")
         subItem.draw()
         var elem = document.getElementById(subItem.container_id)
         fadeInElement(elem)
@@ -199,7 +232,7 @@ function fadeInElement(element){
 
 
 document.body.onload = function(){
-    current_genre.push(new MusicGenre("Rock_music","1960"))
+    current_genre.push(new MusicGenre("Rock_music",""))
     getCurrentGenreInfo()
     document.addEventListener('click',clickListeners)
 }

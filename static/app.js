@@ -87,8 +87,12 @@ function clickListeners(e){
 
         var genreContainer = document.getElementById(current_genre[current_genre.length-1].container_id)
         var genrePopup = document.getElementById(current_genre[current_genre.length-1].popup_id)
-        fadeOutElement(genreContainer)
-        fadeOutElement(genrePopup)
+        fadeOutElement(genreContainer,afterCallBack = function(e){
+            e.style.display="none"
+        })
+        fadeOutElement(genrePopup,afterCallBack= function(e){
+            e.style.display="none"
+        })
 
         var genreContainer = document.getElementById(current_genre[current_genre.length-1].container_id)
         var genrePopup = document.getElementById(current_genre[current_genre.length-1].popup_id)
@@ -98,25 +102,9 @@ function clickListeners(e){
     
         infoTitle.innerText = current_genre[current_genre.length-1].name.replace(/_/g," ")
         infoDesc.innerText = current_genre[current_genre.length-1].description
-
-        genreContainer.addEventListener("animationend", function() {
-            infoContainer.style.display="block"
-            fadeInElement(infoContainer)
-            if(genreContainer.style.display=="block"){
-                genreContainer.style.display="none"
-            }
-            else{
-                genreContainer.style.display="block"
-            }
-        });
-        genrePopup.addEventListener("animationend", function() {
-            if(genrePopup.style.display=="flex"){
-                genrePopup.style.display="none"
-            }
-            else{
-                genrePopup.style.display="flex"
-            }
-        });
+        fadeInElement(infoContainer,beforeCallBack = function(e){
+            e.style.display="block"
+        })
         
     }
     /* SUB */
@@ -128,8 +116,12 @@ function clickListeners(e){
         oReq.send()
         var genreContainer = document.getElementById(current_genre[current_genre.length-1].container_id)
         var genrePopup = document.getElementById(current_genre[current_genre.length-1].popup_id)
-        fadeOutElement(genreContainer)
-        fadeOutElement(genrePopup)
+        fadeOutElement(genreContainer,afterCallBack = function(e){
+            e.style.display="none"
+        })
+        fadeOutElement(genrePopup,afterCallBack=function(e){
+            e.style.display="none"
+        })
     }
     /* FUS */
     if(e.target && (e.target.className=="genre_fus" || e.target.parentElement.className=="genre_fus")){
@@ -214,21 +206,29 @@ function subgenresResponseListener(e){
 /* Helper functions to perform
 /* animations
 */
-function fadeOutElement(element){
+function fadeOutElement(element,beforeCallBack=null,afterCallBack=null){
+    if(beforeCallBack!=null)beforeCallBack(element)
     element.style.animation = "fadeOut 5s"
     element.style.animationFillMode="forwards"
+    if(afterCallBack!=null)element.addEventListener("animationend",afterCallBack)
     for(var i=0;i<element.children.length;i++){
+        if(beforeCallBack!=null)beforeCallBack(element.children[i])
         element.children[i].style.animation = "fadeOut 5s"
         element.children[i].style.animationFillMode="forwards"
+        if(afterCallBack!=null)element.children[i].addEventListener("animationend",afterCallBack)
     }
 }
 
-function fadeInElement(element){
+function fadeInElement(element,beforeCallBack=null,afterCallBack=null){
+    if(beforeCallBack!=null)beforeCallBack(element)
     element.style.animation = "fadeIn 5s"
     element.style.animationFillMode="forwards"
+    if(afterCallBack!=null)element.addEventListener("animationend",afterCallBack)
     for(var i=0;i<element.children.length;i++){
+        if(beforeCallBack!=null)beforeCallBack(element.children[i])
         element.children[i].style.animation = "fadeIn 5s"
         element.children[i].style.animationFillMode="forwards"
+        if(afterCallBack!=null)element.children[i].addEventListener("animationend",afterCallBack)
     }
 }
 

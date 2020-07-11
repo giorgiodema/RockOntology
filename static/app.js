@@ -3,6 +3,7 @@ var current_genre = []
 var MusicGenre = function(name,origin){
     this.name = name
     this.origin = origin
+    this.description = null
     this.container_id = 'div_genre_'+this.name
     this.popup_id = 'popup_genre_'+this.name
     this.sub_genres = []
@@ -80,14 +81,40 @@ function clickListeners(e){
     */
     if(e.target && (e.target.className=="genre_inf" || e.target.parentElement.className=="genre_inf")){
         console.log("genre_inf")
-        var oReq = new XMLHttpRequest()
-        oReq.addEventListener("load", infoResponseListener)
-        oReq.open("GET", document.location.origin + "/query/genre/info"+"?"+"genre="+current_genre[current_genre.length-1].name)
-        oReq.send()
+
         var genreContainer = document.getElementById(current_genre[current_genre.length-1].container_id)
         var genrePopup = document.getElementById(current_genre[current_genre.length-1].popup_id)
         fadeOutElement(genreContainer)
         fadeOutElement(genrePopup)
+
+        var genreContainer = document.getElementById(current_genre[current_genre.length-1].container_id)
+        var genrePopup = document.getElementById(current_genre[current_genre.length-1].popup_id)
+        var infoContainer = document.getElementById("item_abstract_container")
+        var infoTitle = document.getElementById("item_abstract_title")
+        var infoDesc = document.getElementById("item_abstract_description")
+    
+        infoTitle.innerText = current_genre[current_genre.length-1].name.replace(/_/g," ")
+        infoDesc.innerText = current_genre[current_genre.length-1].description
+
+        genreContainer.addEventListener("animationend", function() {
+            infoContainer.style.display="block"
+            fadeInElement(infoContainer)
+            if(genreContainer.style.display=="block"){
+                genreContainer.style.display="none"
+            }
+            else{
+                genreContainer.style.display="block"
+            }
+        });
+        genrePopup.addEventListener("animationend", function() {
+            if(genrePopup.style.display=="flex"){
+                genrePopup.style.display="none"
+            }
+            else{
+                genrePopup.style.display="flex"
+            }
+        });
+        
     }
     if(e.target && (e.target.className=="genre_sub" || e.target.parentElement.className=="genre_sub")){
         console.log("genre_sub")
@@ -111,6 +138,13 @@ function clickListeners(e){
     }
 }
 
+function getCurrentGenreInfo(){
+    var oReq = new XMLHttpRequest()
+    oReq.addEventListener("load", infoResponseListener)
+    oReq.open("GET", document.location.origin + "/query/genre/info"+"?"+"genre="+current_genre[current_genre.length-1].name)
+    oReq.send()
+}
+
 
 /*
 /*  Listeners for the responses for the
@@ -119,21 +153,8 @@ function clickListeners(e){
 function infoResponseListener(e){
     console.log(this.response)
     var data = JSON.parse(this.responseText)        
-
-    var genreContainer = document.getElementById(current_genre[current_genre.length-1].container_id)
-    var genrePopup = document.getElementById(current_genre[current_genre.length-1].popup_id)
-    var infoContainer = document.getElementById("item_abstract_container")
-    var infoTitle = document.getElementById("item_abstract_title")
-    var infoDesc = document.getElementById("item_abstract_description")
-
-    infoTitle.innerText = current_genre[current_genre.length-1].name.replace(/_/g," ")
-    infoDesc.innerText = data["data"]["abstract"]
-
-    genreContainer.style.display="none"
-    genrePopup.style.display="none"
-    infoContainer.style.display="block"
-
-    fadeInElement(infoContainer)
+    current_genre[current_genre.length-1].description = data["data"]["abstract"]
+    current_genre[current_genre.length-1].draw()
 }
 
 function subgenresResponseListener(e){
@@ -178,8 +199,8 @@ function fadeInElement(element){
 
 
 document.body.onload = function(){
-    document.addEventListener('click',clickListeners)
     current_genre.push(new MusicGenre("Rock_music","1960"))
-    current_genre[current_genre.length-1].draw()
+    getCurrentGenreInfo()
+    document.addEventListener('click',clickListeners)
 }
 

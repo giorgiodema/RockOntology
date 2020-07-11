@@ -153,7 +153,9 @@ function clickListeners(e){
        for(var i=0;i<c.sub_genres.length;i++){
            var s = c.sub_genres[i]
            var e = document.getElementById("subitem_container"+s)
-           e.style.display="none"
+           fadeOutElement(e,afterCallBack=function(e){
+               e.style.display="none"
+           })
        }
        var name = target.getAttribute("name")
        current_genre.push(new MainItem(name,"genre"))

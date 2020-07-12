@@ -133,6 +133,18 @@ function clickListeners(e){
     /* FUS */
     if(e.target && (e.target.className=="genre_fus" || e.target.parentElement.className=="genre_fus")){
         console.log("genre_fus")
+        var oReq = new XMLHttpRequest()
+        oReq.addEventListener("load", fusiongenresResponseListener)
+        oReq.open("GET", document.location.origin + "/query/genre/fusiongenres"+"?"+"genre="+current_item[current_item.length-1].name)
+        oReq.send()
+        var genreContainer = document.getElementById(current_item[current_item.length-1].container_id)
+        var genrePopup = document.getElementById(current_item[current_item.length-1].popup_id)
+        fadeOutElement(genreContainer,afterCallBack = function(e){
+            e.style.display="none"
+        })
+        fadeOutElement(genrePopup,afterCallBack=function(e){
+            e.style.display="none"
+        })
     }
     /* ART */
     if(e.target && (e.target.className=="genre_art" || e.target.parentElement.className=="genre_art")){
@@ -220,11 +232,6 @@ function infoResponseListener(e){
 }
 
 function subgenresResponseListener(e){
-    var genreContainer = document.getElementById(current_item[current_item.length-1].container_id)
-    var genrePopup = document.getElementById(current_item[current_item.length-1].popup_id)
-    genreContainer.style.display="none"
-    genrePopup.style.display="none"
-
     console.log(this.response)
     var data = JSON.parse(this.responseText)
     var subgenres = data["data"]
@@ -232,6 +239,20 @@ function subgenresResponseListener(e){
     for(var i=0;i<subgenres.length;i++){
         var subgenre = subgenres[i]
         var subItem = new SubItem(subgenre,"subgenre")
+        subItem.draw()
+        var elem = document.getElementById(subItem.container_id)
+        fadeInElement(elem)
+    }
+}
+
+function fusiongenresResponseListener(e){
+    console.log(this.response)
+    var data = JSON.parse(this.responseText)
+    var fusiongenres = data["data"]
+    current_item[current_item.length-1].fus_genres = fusiongenres
+    for(var i=0;i<fusiongenres.length;i++){
+        var fusiongenre = fusiongenres[i]
+        var subItem = new SubItem(fusiongenre,"fusiongenre")
         subItem.draw()
         var elem = document.getElementById(subItem.container_id)
         fadeInElement(elem)

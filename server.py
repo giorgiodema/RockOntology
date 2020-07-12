@@ -100,7 +100,7 @@ def getGenreInfo():
         else:
             m2 = re.match(r".*([0-9]{2}).*",res[0]["origin"]["value"])
             if m2:
-                result["data"]["origin"] = m1.groups()[0]
+                result["data"]["origin"] = "19"+m1.groups()[0]
             else:
                 result["data"]["origin"] = ""
 

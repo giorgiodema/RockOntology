@@ -46,7 +46,7 @@
 /*  rounded div that contains 
     a single item */
 .item_genre_container{
-
+    position:relative;
     border-radius: 50%;
     border-style: solid;
     border-width: 2px;
@@ -113,7 +113,8 @@
     top:50px;
     font-size:xx-large;
     font-family: Arial, Helvetica, sans-serif;
-    animation:none
+    animation:none;
+    line-height: 90%;
 }
 
 /*  title of an item of type
@@ -129,8 +130,9 @@
 /*  year of origin of an item of
     type genre */
 .genre_origin{
-    position: relative;
-    top:50px;
+    position: absolute;
+    bottom:10px;
+    left:40%;
     font-size:large;
     font-family: Arial, Helvetica, sans-serif;
 }

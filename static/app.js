@@ -243,7 +243,7 @@ function subgenresResponseListener(e){
     var data = JSON.parse(this.responseText)
     var subgenres = data["data"]
     current_item[current_item.length-1].sub_genres = subgenres
-    showSubItems("sub_genre")
+    showSubItems(current_item[current_item.length-1].sub_genres,"sub_genre")
 }
 
 function fusiongenresResponseListener(e){
@@ -251,7 +251,7 @@ function fusiongenresResponseListener(e){
     var data = JSON.parse(this.responseText)
     var fusiongenres = data["data"]
     current_item[current_item.length-1].fus_genres = fusiongenres
-    showSubItems("fus_genre")
+    showSubItems(current_item[current_item.length-1].fus_genres,"fus_genre")
 }
 
 /*
@@ -315,15 +315,23 @@ function removeSubitems(){
     }
 }
 
-function showSubItems(type){
-    var c = current_item[current_item.length-1]
-    var subitems = c[type+"s"]
-    for(var i=0;i<subitems.length;i++){
-        var subgenre = subitems[i]
+var items_per_slice = 20
+function showSubItems(subitems,type){
+    var head = subitems.slice(0,items_per_slice)
+
+    for(var i=0;i<head.length;i++){
+        var subgenre = head[i]
         var subItem = new SubItem(subgenre,type)
         subItem.draw()
         var elem = document.getElementById(subItem.container_id)
-        fadeInElement(elem)
+        if(subitems.length<items_per_slice)fadeInElement(elem)
+    }
+    if(subitems.length > items_per_slice){
+        var rest = subitems.slice(items_per_slice,subitems.length)
+        window.setTimeout(function(){
+            showSubItems(rest,type)
+        },1000)
+        
     }
 }
 

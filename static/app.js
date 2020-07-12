@@ -1,4 +1,4 @@
-var current_genre = []
+var current_item = []
 
 var MainItem = function(name,type){
     this.type=type
@@ -85,8 +85,8 @@ function clickListeners(e){
     if(e.target && (e.target.className=="genre_inf" || e.target.parentElement.className=="genre_inf")){
         console.log("genre_inf")
 
-        var genreContainer = document.getElementById(current_genre[current_genre.length-1].container_id)
-        var genrePopup = document.getElementById(current_genre[current_genre.length-1].popup_id)
+        var genreContainer = document.getElementById(current_item[current_item.length-1].container_id)
+        var genrePopup = document.getElementById(current_item[current_item.length-1].popup_id)
         fadeOutElement(genreContainer,afterCallBack = function(e){
             e.style.display="none"
         })
@@ -94,14 +94,14 @@ function clickListeners(e){
             e.style.display="none"
         })
 
-        var genreContainer = document.getElementById(current_genre[current_genre.length-1].container_id)
-        var genrePopup = document.getElementById(current_genre[current_genre.length-1].popup_id)
+        var genreContainer = document.getElementById(current_item[current_item.length-1].container_id)
+        var genrePopup = document.getElementById(current_item[current_item.length-1].popup_id)
         var infoContainer = document.getElementById("item_abstract_container")
         var infoTitle = document.getElementById("item_abstract_title")
         var infoDesc = document.getElementById("item_abstract_description")
     
-        infoTitle.innerText = current_genre[current_genre.length-1].name.replace(/_/g," ")
-        infoDesc.innerText = current_genre[current_genre.length-1].description
+        infoTitle.innerText = current_item[current_item.length-1].name.replace(/_/g," ")
+        infoDesc.innerText = current_item[current_item.length-1].description
         fadeInElement(infoContainer,beforeCallBack = function(e){
             e.style.display="block"
         })
@@ -112,10 +112,10 @@ function clickListeners(e){
         console.log("genre_sub")
         var oReq = new XMLHttpRequest()
         oReq.addEventListener("load", subgenresResponseListener)
-        oReq.open("GET", document.location.origin + "/query/genre/subgenres"+"?"+"genre="+current_genre[current_genre.length-1].name)
+        oReq.open("GET", document.location.origin + "/query/genre/subgenres"+"?"+"genre="+current_item[current_item.length-1].name)
         oReq.send()
-        var genreContainer = document.getElementById(current_genre[current_genre.length-1].container_id)
-        var genrePopup = document.getElementById(current_genre[current_genre.length-1].popup_id)
+        var genreContainer = document.getElementById(current_item[current_item.length-1].container_id)
+        var genrePopup = document.getElementById(current_item[current_item.length-1].popup_id)
         fadeOutElement(genreContainer,afterCallBack = function(e){
             e.style.display="none"
         })
@@ -149,7 +149,7 @@ function clickListeners(e){
        if(e.target.className=="subitem_container")target = e.target
        else target = e.target.parentElement
 
-       var c = current_genre[current_genre.length-1]
+       var c = current_item[current_item.length-1]
        for(var i=0;i<c.sub_genres.length;i++){
            var s = c.sub_genres[i]
            var e = document.getElementById("subitem_container"+s)
@@ -158,16 +158,15 @@ function clickListeners(e){
            })
        }
        var name = target.getAttribute("name")
-       current_genre.push(new MainItem(name,"genre"))
+       current_item.push(new MainItem(name,"genre"))
        getCurrentGenreInfo()
-
    }
 }
 
 function getCurrentGenreInfo(){
     var oReq = new XMLHttpRequest()
     oReq.addEventListener("load", infoResponseListener)
-    oReq.open("GET", document.location.origin + "/query/genre/info"+"?"+"genre="+current_genre[current_genre.length-1].name)
+    oReq.open("GET", document.location.origin + "/query/genre/info"+"?"+"genre="+current_item[current_item.length-1].name)
     oReq.send()
 }
 
@@ -179,22 +178,22 @@ function getCurrentGenreInfo(){
 function infoResponseListener(e){
     console.log(this.response)
     var data = JSON.parse(this.responseText)
-    var c = current_genre[current_genre.length-1]
+    var c = current_item[current_item.length-1]
     if(c.type=="genre")c.origin = data["data"]["origin"].toString().replace("-","")        
-    current_genre[current_genre.length-1].description = data["data"]["abstract"]
-    current_genre[current_genre.length-1].draw()
+    current_item[current_item.length-1].description = data["data"]["abstract"]
+    current_item[current_item.length-1].draw()
 }
 
 function subgenresResponseListener(e){
-    var genreContainer = document.getElementById(current_genre[current_genre.length-1].container_id)
-    var genrePopup = document.getElementById(current_genre[current_genre.length-1].popup_id)
+    var genreContainer = document.getElementById(current_item[current_item.length-1].container_id)
+    var genrePopup = document.getElementById(current_item[current_item.length-1].popup_id)
     genreContainer.style.display="none"
     genrePopup.style.display="none"
 
     console.log(this.response)
     var data = JSON.parse(this.responseText)
     var subgenres = data["data"]
-    current_genre[current_genre.length-1].sub_genres = subgenres
+    current_item[current_item.length-1].sub_genres = subgenres
     for(var i=0;i<subgenres.length;i++){
         var subgenre = subgenres[i]
         var subItem = new SubItem(subgenre,"subgenre")
@@ -236,7 +235,7 @@ function fadeInElement(element,beforeCallBack=null,afterCallBack=null){
 
 
 document.body.onload = function(){
-    current_genre.push(new MainItem("Rock_music","genre"))
+    current_item.push(new MainItem("Rock_music","genre"))
     getCurrentGenreInfo()
     document.addEventListener('click',clickListeners)
 }

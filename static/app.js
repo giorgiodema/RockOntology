@@ -149,6 +149,18 @@ function clickListeners(e){
     /* ART */
     if(e.target && (e.target.className=="genre_art" || e.target.parentElement.className=="genre_art")){
         console.log("genre_art")
+        var oReq = new XMLHttpRequest()
+        oReq.addEventListener("load", artistsResponseListener)
+        oReq.open("GET", document.location.origin + "/query/genre/artists"+"?"+"genre="+current_item[current_item.length-1].name)
+        oReq.send()
+        var genreContainer = document.getElementById(current_item[current_item.length-1].container_id)
+        var genrePopup = document.getElementById(current_item[current_item.length-1].popup_id)
+        fadeOutElement(genreContainer,afterCallBack = function(e){
+            e.style.display="none"
+        })
+        fadeOutElement(genrePopup,afterCallBack=function(e){
+            e.style.display="none"
+        })
     }
     /* GRO */
     if(e.target && (e.target.className=="genre_gro" || e.target.parentElement.className=="genre_gro")){
@@ -182,6 +194,10 @@ function clickListeners(e){
    */
     if(e.target && e.target.id=="back"){
         console.log("back pressed")
+        // see showSubItems when there're too many
+        // items to display in one spot a timeout is
+        // set to call the function recursively
+        window.clearTimeout(timeout)
         var c = document.getElementById(current_item[current_item.length-1].container_id)
         if(c.style.display=="none"){
             removeSubitems()
@@ -254,6 +270,13 @@ function fusiongenresResponseListener(e){
     showSubItems(current_item[current_item.length-1].fus_genres,"fus_genre")
 }
 
+function artistsResponseListener(e){
+    var data = JSON.parse(this.responseText)
+    var artists = data["data"]
+    current_item[current_item.length-1].artists = artists
+    showSubItems(current_item[current_item.length-1].artists,"artist") 
+}
+
 /*
 /* Helper functions to perform
 /* animations
@@ -316,6 +339,7 @@ function removeSubitems(){
 }
 
 var items_per_slice = 20
+var timeout = null
 function showSubItems(subitems,type){
     var head = subitems.slice(0,items_per_slice)
 
@@ -328,7 +352,7 @@ function showSubItems(subitems,type){
     }
     if(subitems.length > items_per_slice){
         var rest = subitems.slice(items_per_slice,subitems.length)
-        window.setTimeout(function(){
+        timeout = window.setTimeout(function(){
             showSubItems(rest,type)
         },1000)
         

@@ -243,13 +243,7 @@ function subgenresResponseListener(e){
     var data = JSON.parse(this.responseText)
     var subgenres = data["data"]
     current_item[current_item.length-1].sub_genres = subgenres
-    for(var i=0;i<subgenres.length;i++){
-        var subgenre = subgenres[i]
-        var subItem = new SubItem(subgenre,"subgenre")
-        subItem.draw()
-        var elem = document.getElementById(subItem.container_id)
-        fadeInElement(elem)
-    }
+    showSubItems("sub_genre")
 }
 
 function fusiongenresResponseListener(e){
@@ -257,13 +251,7 @@ function fusiongenresResponseListener(e){
     var data = JSON.parse(this.responseText)
     var fusiongenres = data["data"]
     current_item[current_item.length-1].fus_genres = fusiongenres
-    for(var i=0;i<fusiongenres.length;i++){
-        var fusiongenre = fusiongenres[i]
-        var subItem = new SubItem(fusiongenre,"fusiongenre")
-        subItem.draw()
-        var elem = document.getElementById(subItem.container_id)
-        fadeInElement(elem)
-    }
+    showSubItems("fus_genre")
 }
 
 /*
@@ -324,6 +312,18 @@ function removeSubitems(){
             removeElementAndChild(e)
             })
         }
+    }
+}
+
+function showSubItems(type){
+    var c = current_item[current_item.length-1]
+    var subitems = c[type+"s"]
+    for(var i=0;i<subitems.length;i++){
+        var subgenre = subitems[i]
+        var subItem = new SubItem(subgenre,type)
+        subItem.draw()
+        var elem = document.getElementById(subItem.container_id)
+        fadeInElement(elem)
     }
 }
 

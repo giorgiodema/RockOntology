@@ -162,28 +162,29 @@ function clickListeners(e){
     /*      -> an artist
     /*      -> a band
     */
-   if(e.target && (e.target.className=="subitem_container" || e.target.parentElement.className=="subitem_container")){
-       console.log("click on subgenre")
-       var target = null
-       if(e.target.className=="subitem_container")target = e.target
-       else target = e.target.parentElement
+    if(e.target && (e.target.className=="subitem_container" || e.target.parentElement.className=="subitem_container")){
+        console.log("click on subgenre")
+        var target = null
+        if(e.target.className=="subitem_container")target = e.target
+        else target = e.target.parentElement
 
-       var c = current_item[current_item.length-1]
+        // remove from the document all subitems
+        var c = current_item[current_item.length-1]
         var to_remove = c.sub_genres.concat(c.fus_genres.concat(c.artists.concat(c.groups)))
 
-       for(var i=0;i<to_remove.length;i++){
-           var s = to_remove[i]
-           var e = document.getElementById("subitem_container"+s)
-           if(e!=null){
-            fadeOutElement(e,afterCallBack=function(e){
+        for(var i=0;i<to_remove.length;i++){
+            var s = to_remove[i]
+            var e = document.getElementById("subitem_container"+s)
+            if(e!=null){
+                fadeOutElement(e,afterCallBack=function(e){
                 removeElementAndChild(e)
-            })
-           }
-       }
-       var name = target.getAttribute("name")
-       current_item.push(new MainItem(name,"genre"))
-       getCurrentGenreInfo()
-   }
+                })
+            }
+        }
+        var name = target.getAttribute("name")
+        current_item.push(new MainItem(name,"genre"))
+        getCurrentGenreInfo()
+    }
 
    /*
    /* Listener for the back button, to

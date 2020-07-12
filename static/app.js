@@ -65,9 +65,16 @@ function clickListeners(e){
        if(e.target && e.target.className=="item_genre_container"){
         var popup = document.getElementById("popup_genre_"+e.target.getAttribute("name"))
         if(popup.style.display=="flex")
-            popup.style.display="none"
+            fadeOutElement(popup,afterCallBack = function(e){
+                e.style.display="none"
+            })
         else
-            popup.style.display="flex"
+            fadeInElement(popup,beforeCallBack = function(e){
+                if(e.className=="popup_genre")
+                    e.style.display="flex"
+                else
+                    e.style.display=""
+            })
     }
     /*
     /*  listeners for the items of the popup menu:
@@ -161,6 +168,34 @@ function clickListeners(e){
        current_item.push(new MainItem(name,"genre"))
        getCurrentGenreInfo()
    }
+
+   /*
+   /* Listener for the back button, to
+   /* navigate back to the previous
+   /* current_item
+   */
+   if(e.target && e.target.id=="back"){
+       console.log("back pressed")
+       if(current_item.length>1){
+        // remove current item
+        var current = document.getElementById(
+            current_item[current_item.length-1].container_id
+        )
+        fadeOutElement(current,afterCallBack = function(e){
+            while(e.firstChild)
+                e.removeChild(e.firstChild)
+            e.remove()
+        })
+        current_item.pop()
+        var prev = document.getElementById(
+            current_item[current_item.length-1].container_id
+        )
+        fadeInElement(prev,beforeCallBack = function(e){
+            e.style.display=""
+        })
+       }
+   }
+
 }
 
 function getCurrentGenreInfo(){

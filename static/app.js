@@ -165,6 +165,18 @@ function clickListeners(e){
     /* GRO */
     if(e.target && (e.target.className=="genre_gro" || e.target.parentElement.className=="genre_gro")){
         console.log("genre_gro")
+        var oReq = new XMLHttpRequest()
+        oReq.addEventListener("load", groupsResponseListener)
+        oReq.open("GET", document.location.origin + "/query/genre/groups"+"?"+"genre="+current_item[current_item.length-1].name)
+        oReq.send()
+        var genreContainer = document.getElementById(current_item[current_item.length-1].container_id)
+        var genrePopup = document.getElementById(current_item[current_item.length-1].popup_id)
+        fadeOutElement(genreContainer,afterCallBack = function(e){
+            e.style.display="none"
+        })
+        fadeOutElement(genrePopup,afterCallBack=function(e){
+            e.style.display="none"
+        })
     }
 
     /*
@@ -275,6 +287,13 @@ function artistsResponseListener(e){
     var artists = data["data"]
     current_item[current_item.length-1].artists = artists
     showSubItems(current_item[current_item.length-1].artists,"artist") 
+}
+
+function groupsResponseListener(e){
+    var data = JSON.parse(this.responseText)
+    var groups = data["data"]
+    current_item[current_item.length-1].groups = groups
+    showSubItems(current_item[current_item.length-1].groups,"group")
 }
 
 /*

@@ -117,10 +117,7 @@ function clickListeners(e){
     /* SUB */
     if(e.target && (e.target.className=="genre_sub" || e.target.parentElement.className=="genre_sub")){
         console.log("genre_sub")
-        var oReq = new XMLHttpRequest()
-        oReq.addEventListener("load", subgenresResponseListener)
-        oReq.open("GET", document.location.origin + "/query/genre/subgenres"+"?"+"genre="+current_item[current_item.length-1].name)
-        oReq.send()
+        
         var genreContainer = document.getElementById(current_item[current_item.length-1].container_id)
         var genrePopup = document.getElementById(current_item[current_item.length-1].popup_id)
         fadeOutElement(genreContainer,afterCallBack = function(e){
@@ -129,6 +126,14 @@ function clickListeners(e){
         fadeOutElement(genrePopup,afterCallBack=function(e){
             e.style.display="none"
         })
+        if(current_item[current_item.length-1]["sub_genres"].length > 1){
+            showSubItems("sub_genre")
+            return
+        }
+        var oReq = new XMLHttpRequest()
+        oReq.addEventListener("load", subgenresResponseListener)
+        oReq.open("GET", document.location.origin + "/query/genre/subgenres"+"?"+"genre="+current_item[current_item.length-1].name)
+        oReq.send()
     }
     /* FUS */
     if(e.target && (e.target.className=="genre_fus" || e.target.parentElement.className=="genre_fus")){

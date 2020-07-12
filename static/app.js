@@ -169,12 +169,16 @@ function clickListeners(e){
        else target = e.target.parentElement
 
        var c = current_item[current_item.length-1]
-       for(var i=0;i<c.sub_genres.length;i++){
-           var s = c.sub_genres[i]
+        var to_remove = c.sub_genres.concat(c.fus_genres.concat(c.artists.concat(c.groups)))
+
+       for(var i=0;i<to_remove.length;i++){
+           var s = to_remove[i]
            var e = document.getElementById("subitem_container"+s)
-           fadeOutElement(e,afterCallBack=function(e){
-               e.style.display="none"
-           })
+           if(e!=null){
+            fadeOutElement(e,afterCallBack=function(e){
+                removeElementAndChild(e)
+            })
+           }
        }
        var name = target.getAttribute("name")
        current_item.push(new MainItem(name,"genre"))
@@ -287,6 +291,15 @@ function fadeInElement(element,beforeCallBack=null,afterCallBack=null){
         element.children[i].style.animationFillMode="forwards"
         if(afterCallBack!=null)element.children[i].addEventListener("animationend",afterCallBack)
     }
+}
+
+/* 
+/* Helper functions to manipulate DOM
+*/
+function removeElementAndChild(e){
+    while(e.firstChild)
+        e.removeChild(e.firstChild)
+    e.remove()
 }
 
 

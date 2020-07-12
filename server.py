@@ -93,7 +93,16 @@ def getGenreInfo():
     compile_query(uid,Query.GENRE_ORIGIN,**args)
     res = run_query(uid)
     if res and len(res)>0:
-        result["data"]["origin"] = int(float(res[0]["origin"]["value"]))
+        m1 = re.match(r".*([0-9]{4}).*",res[0]["origin"]["value"])
+        if m1:
+            result["data"]["origin"] = m1.groups()[0]
+        else:
+            m2 = re.match(r".*([0-9]{2}).*",res[0]["origin"]["value"])
+            if m2:
+                result["data"]["origin"] = m1.groups()[0]
+            else:
+                result["data"]["origin"] = ""
+
 
     return json.dumps(result)
 

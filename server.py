@@ -63,7 +63,7 @@ def get_args(*args):
     return d
 
 # Renders the html page with the attached script
-@app.route('/index')
+@app.route('/')
 def getIndex():
     with open(os.path.join("templates","app.html")) as f:
         t = Template(f.read())

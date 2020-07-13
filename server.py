@@ -25,6 +25,8 @@ def generate_uid():
     return uid
 
 def compile_query(uid,qid,**kwargs):
+    if not os.path.exists("tmp"):
+        os.mkdir("tmp")
     out_path = os.path.join("tmp",uid)
     with open(os.path.join("queries",qid),"r") as f:
         t = Template(f.read())

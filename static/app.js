@@ -93,6 +93,10 @@ function clickListeners(e){
    /* INF */
     if(e.target && (e.target.className=="genre_inf" || e.target.parentElement.className=="genre_inf")){
         console.log("genre_inf")
+        if(current_item[current_item.length-1].description == null){
+            noItemFound()
+            return
+        }
 
         var genreContainer = document.getElementById(current_item[current_item.length-1].container_id)
         var genrePopup = document.getElementById(current_item[current_item.length-1].popup_id)
@@ -272,6 +276,10 @@ function subgenresResponseListener(e){
     console.log(this.response)
     var data = JSON.parse(this.responseText)
     var subgenres = data["data"]
+    if(subgenres.length==0){
+        noItemFound()
+        return
+    }
     current_item[current_item.length-1].sub_genres = subgenres
     showSubItems(current_item[current_item.length-1].sub_genres,"sub_genre")
 }
@@ -280,6 +288,10 @@ function fusiongenresResponseListener(e){
     console.log(this.response)
     var data = JSON.parse(this.responseText)
     var fusiongenres = data["data"]
+    if(fusiongenres.length==0){
+        noItemFound()
+        return
+    }
     current_item[current_item.length-1].fus_genres = fusiongenres
     showSubItems(current_item[current_item.length-1].fus_genres,"fus_genre")
 }
@@ -287,6 +299,10 @@ function fusiongenresResponseListener(e){
 function artistsResponseListener(e){
     var data = JSON.parse(this.responseText)
     var artists = data["data"]
+    if(artists.length==0){
+        noItemFound()
+        return
+    }
     current_item[current_item.length-1].artists = artists
     showSubItems(current_item[current_item.length-1].artists,"artist") 
 }
@@ -294,6 +310,10 @@ function artistsResponseListener(e){
 function groupsResponseListener(e){
     var data = JSON.parse(this.responseText)
     var groups = data["data"]
+    if(groups.length==0){
+        noItemFound()
+        return
+    }
     current_item[current_item.length-1].groups = groups
     showSubItems(current_item[current_item.length-1].groups,"group")
 }
@@ -378,5 +398,9 @@ function showSubItems(subitems,type){
         },1000)
         
     }
+}
+
+function noItemFound(){
+    window.alert("No results found for this topic")
 }
 

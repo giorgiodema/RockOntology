@@ -17,20 +17,22 @@ MainItem.prototype.draw = function(){
     /*  html code for a genre container (rounded container with
     /*  name and year)
     */
-    var container =     '<div class="item_genre_container" id="div_genre_'+this.name+'" name='+this.name+'>\
-                            <p class="genre_title">'+this.name.replace(/_/g," ")+'</p>'
-    if(this.type=="genre") container = container += '<p class="genre_origin">'+this.origin+'</p>'
-    container +='</div>'
+    var container =                 '<div class="item_genre_container" id="div_genre_'+this.name+'" name='+this.name+'>\
+                                        <p class="genre_title">'+this.name.replace(/_/g," ")+'</p>'
+    if(this.type=="genre" || this.type=="sub_genre" || this.type=="fus_genre") 
+        container = container +=    '<p class="genre_origin">'+this.origin+'</p>'
+    container +=                    '</div>'
     /*
     /*  html code for the popup menu of the genre item 
     */
     var popup = '       <ul class=popup_genre id="popup_genre_'+this.name+'">\
-                            <li class="genre_inf" id=popup_genre_'+this.name+'_inf><p>More Info</p></li>\
-                            <li class="genre_sub" id=popup_genre_'+this.name+'_sub><p>Subgenres</p></li>\
+                            <li class="genre_inf" id=popup_genre_'+this.name+'_inf><p>More Info</p></li>'
+    if(this.type=="genre" || this.type=="sub_genre" || this.type=="fus_genre")
+        popup += '          <li class="genre_sub" id=popup_genre_'+this.name+'_sub><p>Subgenres</p></li>\
                             <li class="genre_fus" id=popup_genre_'+this.name+'_fus><p>Fusion Genres</p></li>\
                             <li class="genre_art" id=popup_genre_'+this.name+'_art><p>Artists</p></li>\
-                            <li class="genre_gro" id=popup_genre_'+this.name+'_gro><p>Groups</p></li>\
-                        </ul>'
+                            <li class="genre_gro" id=popup_genre_'+this.name+'_gro><p>Groups</p></li>'
+    popup += '          </ul>'
     /*
     /* attach new items to the html page
     */
@@ -47,7 +49,7 @@ SubItem.prototype.draw = function(){
     /*  html code for a genre container (rounded container with
     /*  name and year)
     */
-    var container =     '<div class="subitem_container" id="subitem_container'+this.name+'" name='+this.name+'>\
+    var container =     '<div class="subitem_container" type='+this.type+' id="subitem_container'+this.name+'" name='+this.name+'>\
                             <p class="subitem_title">'+this.name.replace(/_/g," ")+'</p>\
                         </div>'
     /*
@@ -191,11 +193,11 @@ function clickListeners(e){
         var target = null
         if(e.target.className=="subitem_container")target = e.target
         else target = e.target.parentElement
-
         // remove from the document all subitems
         removeSubitems()
         var name = target.getAttribute("name")
-        current_item.push(new MainItem(name,"genre"))
+        var type = target.getAttribute("type")
+        current_item.push(new MainItem(name,type))
         getCurrentGenreInfo()
     }
 

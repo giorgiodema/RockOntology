@@ -194,6 +194,7 @@ function clickListeners(e){
     */
     if(e.target && (e.target.className=="subitem_container" || e.target.parentElement.className=="subitem_container")){
         console.log("click on subgenre")
+        window.clearTimeout(timeout)
         var target = null
         if(e.target.className=="subitem_container")target = e.target
         else target = e.target.parentElement

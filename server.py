@@ -40,7 +40,12 @@ def compile_query(uid,qid,**kwargs):
             f.write(t)
 
 def run_query(uid):
-    with Popen([os.path.join("commands",CMD),"./tmp/"+uid,"json"], stdout=PIPE) as proc:
+    args = None
+    if os.name=="nt":
+        args = [os.path.join("commands",CMD),"./tmp/"+uid,"json"]
+    else:
+        args = ["bash",os.path.join("commands",CMD),"./tmp/"+uid,"json"]
+    with Popen(args, stdout=PIPE) as proc:
         res = proc.stdout.read()
         os.remove(os.path.join("tmp",uid))
         if res==b'':

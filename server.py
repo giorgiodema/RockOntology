@@ -40,11 +40,7 @@ def compile_query(uid,qid,**kwargs):
             f.write(t)
 
 def run_query(uid):
-    args = None
-    if os.name=="nt":
-        args = [os.path.join("commands",CMD),"./tmp/"+uid,"json"]
-    else:
-        args = ["bash",os.path.join("commands",CMD),"./tmp/"+uid,"json"]
+    args = ["bash",os.path.abspath("commands/rsparql"),"--service", "http://dbpedia.org/sparql", "--query",os.path.abspath("tmp/"+uid), "--results","json"]
     with Popen(args, stdout=PIPE) as proc:
         res = proc.stdout.read()
         os.remove(os.path.join("tmp",uid))

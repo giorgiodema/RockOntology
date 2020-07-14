@@ -1,3 +1,16 @@
+:root {
+    --genre_color:rgb(0, 139, 226);
+    --genre_hover_color:rgba(0, 139, 226, 0.3);
+    --sub_color:rgb(48, 206, 0);
+    --sub_hover_color:rgba(48, 206, 0,0.3);
+    --fus_color:rgb(231, 141, 22);
+    --fus_hover_color:rgba(231, 141, 22,0.3);
+    --artist_color:rgb(185, 24, 24);
+    --artist_hover_color:rgba(185, 24, 24,0.3);
+    --group_color:rgb(198, 36, 212);
+    --group_hover_color:rgba(198, 36, 212,0.3);
+  }
+
 /*  back button, to return to the
     previous items */
 #back{
@@ -6,18 +19,17 @@
     top: 10px;
     padding:20px;
     background-color: white;
-    border: 2px solid rgb(0, 139, 226);
+    border: 2px solid var(--genre_color);
     font-size: large;
 }
 #back:hover{
-    background-color: rgb(126, 206, 255);
+    background-color: var(--genre_hover_color);
 }
 
 
 /*  contains all the items, it's the
     root container */
 .main_container{
-    background-color: rgb(255, 254, 254);
 
     display: flex;
     /* main direction */
@@ -50,12 +62,15 @@
     border-radius: 50%;
     border-style: solid;
     border-width: 2px;
-    border-color: rgb(0, 139, 226);
+    border-color: var(--genre_color);
 
     width:200px;
     height: 200px;
 
     text-align: center;
+}
+.item_genre_container:hover{
+    background-color: var(--genre_hover_color);
 }
 
 /*  rounded div that contains 
@@ -64,13 +79,36 @@
     border-radius: 50%;
     border-style: solid;
     border-width: 2px;
-    border-color: rgb(0, 226, 30);
     margin:20px;
 
     width:120px;
     height: 120px;
 
     text-align: center;
+}
+.subitem_container[type="sub_genre"]{
+    border-color: var(--sub_color);
+}
+.subitem_container[type="fus_genre"]{
+    border-color: var(--fus_color);
+}
+.subitem_container[type="artist"]{
+    border-color: var(--artist_color);
+}
+.subitem_container[type="group"]{
+    border-color: var(--group_color);
+}
+.subitem_container[type="sub_genre"]:hover{
+    background-color: var(--sub_hover_color);
+}
+.subitem_container[type="fus_genre"]:hover{
+    background-color: var(--fus_hover_color);
+}
+.subitem_container[type="artist"]:hover{
+    background-color: var(--artist_hover_color);
+}
+.subitem_container[type="group"]:hover{
+    background-color: var(--group_hover_color);
 }
 
 /*  popup displaying all
@@ -94,11 +132,11 @@
     performed on an item */
 .popup_genre li{
     display: inline-block;
-    border-bottom: 2px solid rgb(0, 139, 226);
+    border-bottom: 2px solid var(--genre_color);
     height: 100%;
 }
 .popup_genre li:hover{
-    background-color: rgb(126, 206, 255);
+    background-color: var(--genre_hover_color);
 }
 .popup_genre li p{
     text-align: center;

@@ -268,7 +268,12 @@ function infoResponseListener(e){
     console.log(this.response)
     var data = JSON.parse(this.responseText)
     var c = current_item[current_item.length-1]
-    if(c.type=="genre" || c.type=="sub_genre" || c.type=="fus_genre")c.origin = data["data"]["origin"].toString().replace("-","")        
+    if(c.type=="genre" || c.type=="sub_genre" || c.type=="fus_genre"){
+        if(data["data"]["origin"])
+            c.origin = data["data"]["origin"].toString().replace("-","")
+        else
+            c.origin=""
+    }  
     current_item[current_item.length-1].description = data["data"]["abstract"]
     current_item[current_item.length-1].draw()
 }

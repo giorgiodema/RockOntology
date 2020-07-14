@@ -64,8 +64,15 @@ function clickListeners(e){
         /*  the listner shows the corresponding 
         /*  popup menu 
         */
-       if(e.target && e.target.className=="item_genre_container"){
-        var popup = document.getElementById("popup_genre_"+e.target.getAttribute("name"))
+       if(e.target && (e.target.className=="item_genre_container" || e.target.parentElement.className=="item_genre_container")){
+           var target = null
+           if(e.target.className=="item_genre_container"){
+               target = e.target
+           }
+           else{
+               target = e.target.parentElement
+           }
+        var popup = document.getElementById("popup_genre_"+target.getAttribute("name"))
         if(popup.style.display=="flex")
             fadeOutElement(popup,afterCallBack = function(e){
                 e.style.display="none"

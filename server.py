@@ -10,11 +10,6 @@ import re
 
 app = Flask(__name__)
 
-if os.name=="nt":
-    CMD = "run.bat"
-if os.name=="posix":
-    CMD = "run.sh"
-
 class Query:
     GENRE_ABSTRACT = "genre_abstract.rq"
     GENRE_ORIGIN = "genre_origin.rq"

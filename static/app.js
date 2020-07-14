@@ -229,15 +229,15 @@ function clickListeners(e){
         }
         else{
             if(current_item.length>1){
-                // remove current item
+                // remove current item and popup
                 var current = document.getElementById(
                     current_item[current_item.length-1].container_id
                 )
-                fadeOutElement(current,afterCallBack = function(e){
-                    while(e.firstChild)
-                        e.removeChild(e.firstChild)
-                    e.remove()
-                })
+                var popup = document.getElementById(
+                    current_item[current_item.length-1].popup_id
+                )
+                removeElementAndChild(current)
+                removeElementAndChild(popup)
                 current_item.pop()
             }
         }

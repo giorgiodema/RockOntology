@@ -35,7 +35,11 @@ def compile_query(uid,qid,**kwargs):
             f.write(t)
 
 def run_query(uid):
-    args = ["bash","apache-jena-3.15.0/bin/rsparql","--service", "http://dbpedia.org/sparql", "--query",os.path.abspath("tmp/"+uid), "--results","json"]
+    args = None
+    if os.name=="posix":
+        args = ["bash","apache-jena-3.15.0/bin/rsparql","--service", "http://dbpedia.org/sparql", "--query",os.path.abspath("tmp/"+uid), "--results","json"]
+    if os.name=="nt":
+        args = [os.path.join("commands","run.bat"),"./tmp/"+uid,"json"]
     with Popen(args, stdout=PIPE) as proc:
         res = proc.stdout.read()
         os.remove(os.path.join("tmp",uid))

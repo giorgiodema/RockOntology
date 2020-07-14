@@ -1,1 +1,0 @@
-rsparql --service http://dbpedia.org/sparql --query $1 --results $2

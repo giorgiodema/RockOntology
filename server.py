@@ -10,11 +10,6 @@ import re
 
 app = Flask(__name__)
 
-if os.name=="nt":
-    CMD = "run.bat"
-if os.name=="posix":
-    CMD = "run.sh"
-
 class Query:
     GENRE_ABSTRACT = "genre_abstract.rq"
     GENRE_ORIGIN = "genre_origin.rq"
@@ -40,7 +35,8 @@ def compile_query(uid,qid,**kwargs):
             f.write(t)
 
 def run_query(uid):
-    with Popen([os.path.join("commands",CMD),"./tmp/"+uid,"json"], stdout=PIPE) as proc:
+    args = ["bash","apache-jena-3.15.0/bin/rsparql","--service", "http://dbpedia.org/sparql", "--query",os.path.abspath("tmp/"+uid), "--results","json"]
+    with Popen(args, stdout=PIPE) as proc:
         res = proc.stdout.read()
         os.remove(os.path.join("tmp",uid))
         if res==b'':

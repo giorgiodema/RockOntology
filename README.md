@@ -65,3 +65,6 @@ The rest endpoint exposes the following interface:
 ```
 
 In the folder <i>/queries</i> there are templates of SPARQL queries. Each template is mapped to a request. When the web server receives a request it loads and compiles the related template and executes the SPARQL query using Apache Jena SPARQL engine. The result is collected in JSON format and it is forwarded to the client.
+
+# Slides
+https://docs.google.com/presentation/d/1j5oak-hjK6T79jXu1_vpzvmAToCtuxg4QygdWRkdMRg/edit?usp=sharing

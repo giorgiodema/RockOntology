@@ -1,10 +1,10 @@
 # RockOntology
 RockOntology is a website that shows a visual representation of the rock taxonomy. All the informations are retrieved online with sparql queries over www.dbpedia.org.
 
-## web server
+## Web Server
 The web server ```server.py``` is both a static web server that provides the main page of the application and a REST endpoint.
 
-## rest endpoint
+### Rest Endpoint
 The rest endpoint exposes the following interface:
 - <b>GET  /query/genre/info?genre=<i>genre_name</i></b> returns the informations about the genre <i>genre_name</i>
 ```json
